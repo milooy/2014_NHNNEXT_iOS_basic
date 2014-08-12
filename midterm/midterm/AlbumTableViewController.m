@@ -8,6 +8,7 @@
 
 #import "AlbumTableViewController.h"
 #import "MyModel.h"
+#import "DetailViewController.h"
 
 @interface AlbumTableViewController ()
 @property (nonatomic, strong) MyModel *myModel;
@@ -17,8 +18,7 @@
 @implementation AlbumTableViewController
 
 - (void) myEventHandler:(NSNotification *) notif {
-    //    NSDictionary *userInfo = [notif userInfo];
-    //    NSNumber *myNum = userInfo[@"myNum"];
+   
     //    NSLog(@"myNum: %@", myNum);
     
     [self.tableView reloadData];
@@ -41,6 +41,7 @@
     
     
     _myModel = [[MyModel alloc] init];
+    [_myModel myObserver];
 }
 
 - (void)didReceiveMemoryWarning
@@ -53,8 +54,6 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
     return 1;
 }
 
@@ -67,8 +66,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AlbumCell" forIndexPath:indexPath];
-    
-    cell.textLabel.text = 
+    NSDictionary *jsonDic = self.myModel.jsonInfo[indexPath.row];
+    cell.textLabel.text = [jsonDic valueForKey:@"title"];
+    cell.detailTextLabel.text = [jsonDic valueForKey:@"date"];
     
     return cell;
 }
@@ -122,5 +122,16 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if([[segue identifier] isEqualToString:@"ShowAlbumDetails"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSDictionary *jsonDic = _myModel.jsonInfo[indexPath.row];
+        NSLog(@"hahaha: %@", jsonDic);
+        [[segue destinationViewController] setDetailItem:jsonDic];
+        
+    }
+}
 
 @end
