@@ -12,6 +12,7 @@
 
 @interface AlbumTableViewController ()
 @property (nonatomic, strong) MyModel *myModel;
+@property (nonatomic, strong) NSMutableArray *jsonDicS;
 
 @end
 
@@ -23,6 +24,45 @@
     
     [self.tableView reloadData];
 }
+
+
+-(void) letsOrder {
+    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+    NSMutableDictionary *jsonDic = _myModel.jsonInfo[indexPath.row];
+    _jsonDicS = _myModel.jsonInfo;
+    NSSortDescriptor *nameSorter = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:YES];
+    NSArray *sortDescriptors = @[nameSorter];
+    NSArray *sortedPersonArray = [_jsonDicS sortedArrayUsingDescriptors:sortDescriptors];
+    _myModel.jsonInfo = sortedPersonArray;
+    [self.tableView reloadData];
+    NSLog(@"tt: %@",sortedPersonArray);
+}
+
+
+
+-(BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [self becomeFirstResponder];
+    [super viewDidAppear:animated];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+    [self resignFirstResponder];
+    [super viewDidDisappear:animated];
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    if (event.subtype == UIEventSubtypeMotionShake) {
+        _myModel.jsonInfo = _jsonDicS;
+        [self.tableView reloadData];
+        
+    }
+    [super motionEnded:motion withEvent:event];
+}
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -42,6 +82,9 @@
     
     _myModel = [[MyModel alloc] init];
     [_myModel myObserver];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"order"     style:UIBarButtonItemStyleBordered target:self action:@selector(letsOrder)];
+    
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -128,7 +171,6 @@
     if([[segue identifier] isEqualToString:@"ShowAlbumDetails"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSDictionary *jsonDic = _myModel.jsonInfo[indexPath.row];
-        NSLog(@"hahaha: %@", jsonDic);
         [[segue destinationViewController] setDetailItem:jsonDic];
         
     }

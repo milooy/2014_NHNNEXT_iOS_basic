@@ -29,7 +29,6 @@
     [super viewDidLoad];
     if(self.detailItem) {
         self.albumTitleLabel.text = [self.detailItem valueForKey:@"title"];
-        NSLog(@"kaka: %@", [self.detailItem valueForKey:@"image"]);
         //self.myImage.image = [self.detailItem valueForKey:@"image"];
         self.myImage.image = [UIImage imageNamed:[self.detailItem valueForKey:@"image"]];
         self.dateLabel.text = [self.detailItem valueForKey:@"date"];

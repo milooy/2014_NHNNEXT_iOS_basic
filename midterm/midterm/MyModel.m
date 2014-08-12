@@ -27,7 +27,7 @@
     NSData* data222 = [NSData dataWithBytes:(const void *)data length: size];
     
     NSError *error;
-    NSArray *jsonInfoArray = [NSJSONSerialization JSONObjectWithData:data222 options:kNilOptions error:&error];
+    NSMutableArray *jsonInfoArray = [NSJSONSerialization JSONObjectWithData:data222 options:kNilOptions error:&error];
     NSDictionary *jsonInfo = [NSJSONSerialization JSONObjectWithData:data222 options:kNilOptions error:&error];
     _jsonInfo = jsonInfoArray;
     

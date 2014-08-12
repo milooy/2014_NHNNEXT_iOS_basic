@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface MyModel : NSObject
-@property NSArray *jsonInfo;
+@property NSMutableArray *jsonInfo;
 
 -(void)myObserver;
 
