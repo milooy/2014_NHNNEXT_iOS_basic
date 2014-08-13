@@ -29,26 +29,16 @@
     [super viewDidLoad];
     if(self.detailItem) {
         self.albumTitleLabel.text = [self.detailItem valueForKey:@"title"];
-        //self.myImage.image = [self.detailItem valueForKey:@"image"];
         self.myImage.image = [UIImage imageNamed:[self.detailItem valueForKey:@"image"]];
         self.dateLabel.text = [self.detailItem valueForKey:@"date"];
-        //        self.albumTitleLabel.text = @"haha";
-        //        self.dateLabel.text = @"hoho";
     }
-    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
 #pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-
-
-
 @end

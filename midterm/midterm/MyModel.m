@@ -10,6 +10,7 @@
 
 @implementation MyModel
 
+//char형 데이터를 jSON파싱해서 딕셔너리 형태로 mutable array에 넣었다.
 -(void)myObserver {
     char *data =
     "[{\"title\":\"초록\",\"image\":\"01.jpg\",\"date\":\"20140116\"},\
@@ -24,21 +25,13 @@
     
     
     NSUInteger size = strlen(data);
-    NSData* data222 = [NSData dataWithBytes:(const void *)data length: size];
+    NSData* data2 = [NSData dataWithBytes:(const void *)data length: size];
     
     NSError *error;
-    NSMutableArray *jsonInfoArray = [NSJSONSerialization JSONObjectWithData:data222 options:kNilOptions error:&error];
-    NSDictionary *jsonInfo = [NSJSONSerialization JSONObjectWithData:data222 options:kNilOptions error:&error];
+    NSMutableArray *jsonInfoArray = [NSJSONSerialization JSONObjectWithData:data2 options:kNilOptions error:&error];
+    NSDictionary *jsonInfo = [NSJSONSerialization JSONObjectWithData:data2 options:kNilOptions error:&error];
     _jsonInfo = jsonInfoArray;
-    
-    //NSLog(@"haha: %@", [jsonInfo valueForKey:@"name"]);
-    //NSLog(@"haha2: %@", [jsonInfo valueForKey:@"title"]);
-    //NSLog(@"haha2: %@", jsonInfo[0]);
-    //myNumber = [NSNumber numberWithInteger:randNum];
-    
-    
-    //NSDictionary *userInfo = @{@"myNumber" : _myNumber, @"Lettertouch" : @5};
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"myInit" object:self userInfo:jsonInfo];
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"myInit" object:self userInfo:jsonInfo];
 }
 
 @end
