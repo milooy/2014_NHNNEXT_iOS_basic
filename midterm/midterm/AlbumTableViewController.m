@@ -18,28 +18,22 @@
 
 @implementation AlbumTableViewController
 
+//노티받는곳
 - (void) myEventHandler:(NSNotification *) notif {
-   
-    //    NSLog(@"myNum: %@", myNum);
-    
     [self.tableView reloadData];
 }
 
-
+//order버튼 누르면 호출
 -(void) letsOrder {
-    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    NSMutableDictionary *jsonDic = _myModel.jsonInfo[indexPath.row];
-    _jsonDicS = _myModel.jsonInfo;
-    NSSortDescriptor *nameSorter = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:YES];
-    NSArray *sortDescriptors = @[nameSorter];
-    NSArray *sortedPersonArray = [_jsonDicS sortedArrayUsingDescriptors:sortDescriptors];
-    _myModel.jsonInfo = sortedPersonArray;
-    [self.tableView reloadData];
-    NSLog(@"tt: %@",sortedPersonArray);
+    _jsonDicS = _myModel.jsonInfo; //지금 모델정보를 jsonDicS 프로퍼티에 저장해둔다.
+    NSSortDescriptor *nameSorter = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:YES]; //name sorter는 date키로 value값을 받아와서
+    NSArray *sortDescriptors = @[nameSorter]; //내가 원하는 sort조건을 array에 담고(지금은 date하나뿐)
+    NSArray *sortedArray = [_jsonDicS sortedArrayUsingDescriptors:sortDescriptors]; //그 조건으로 정렬된 배열을 sortedArray로 따로 저장
+    _myModel.jsonInfo = sortedArray; //모델을 바꿔준다
+    [self.tableView reloadData]; //tableView reload
 }
 
-
-
+//shake 모션을 위한 함수들
 -(BOOL)canBecomeFirstResponder {
     return YES;
 }
@@ -56,9 +50,8 @@
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
     if (event.subtype == UIEventSubtypeMotionShake) {
-        _myModel.jsonInfo = _jsonDicS;
-        [self.tableView reloadData];
-        
+        _myModel.jsonInfo = _jsonDicS; //정렬하기전에 저장했던 프로퍼티 jsonDicS를 모델에 박는다
+        [self.tableView reloadData];//tableView reload
     }
     [super motionEnded:motion withEvent:event];
 }
@@ -68,9 +61,27 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
     }
     return self;
+}
+
+//로우를 고칠 수 있게 함
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+//스와이프시 지우는 코드
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        if (editingStyle == UITableViewCellEditingStyleDelete) {
+            NSMutableArray *deletedArray2 = [[NSMutableArray alloc] initWithArray:_myModel.jsonInfo];
+            NSLog(@"kk: %@", deletedArray2);
+            [deletedArray2 removeObjectAtIndex:indexPath.row];
+            NSLog(@"kk2: %@", deletedArray2);
+            _myModel.jsonInfo = deletedArray2; //모델을 바꿔준다
+            [self.tableView reloadData]; //tableView reload
+        }
+    }
 }
 
 - (void)viewDidLoad
@@ -79,10 +90,12 @@
     NSNotificationCenter *notiCenter = [NSNotificationCenter defaultCenter];
     [notiCenter addObserver:self selector:@selector(myEventHandler:) name:@"myInit" object:nil];
     
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    //self.tableView.allowsMultipleSelectionDuringEditing = NO;
     
     _myModel = [[MyModel alloc] init];
     [_myModel myObserver];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"order"     style:UIBarButtonItemStyleBordered target:self action:@selector(letsOrder)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"order" style:UIBarButtonItemStyleBordered target:self action:@selector(letsOrder)];
     
 
 }
