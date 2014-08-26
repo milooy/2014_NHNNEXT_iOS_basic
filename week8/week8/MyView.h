@@ -11,5 +11,5 @@
 @interface MyView : UIView
 
 -(CGGradientRef)gradient;
-
+-(void)drawPath;
 @end
