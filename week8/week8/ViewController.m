@@ -23,6 +23,12 @@
     NSData* graphData = [graphString dataUsingEncoding:NSUTF8StringEncoding];
     NSMutableArray *graphArray = [NSJSONSerialization JSONObjectWithData:graphData options:kNilOptions error:&error];
     _myBarGraphView.graphArray = graphArray;
+    
+    //Pie;
+    NSString *graphString2 = @"[{\"title\":\"April\", \"percentage\":18},{\"title\":\"May\", \"percentage\":12},{\"title\":\"June\", \"percentage\":18},{\"title\":\"July\", \"percentage\":13},{\"title\":\"August\", \"percentage\":18}, {\"title\":\"September\", \"percentage\":9},{\"title\":\"October\", \"percentage\":18}]";
+    NSData* graphData2 = [graphString2 dataUsingEncoding:NSUTF8StringEncoding];
+    NSMutableArray *graphArray2 = [NSJSONSerialization JSONObjectWithData:graphData2 options:kNilOptions error:&error];
+    _myPieGraphView.graphArray = graphArray2;
 
 }
 
