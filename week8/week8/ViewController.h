@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BarGraphView.h"
 
 @interface ViewController : UIViewController
-
+//@property NSMutableArray* graphArray;
+@property (weak, nonatomic) IBOutlet BarGraphView *myBarGraphView;
 @end

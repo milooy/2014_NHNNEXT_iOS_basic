@@ -18,6 +18,12 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    NSError *error;
+    NSString *graphString = @"[{\"title\":\"April\", \"value\":5},{\"title\":\"May\", \"value\":12},{\"title\":\"June\", \"value\":18},{\"title\":\"July\", \"value\":11},{\"title\":\"August\", \"value\":15},{\"title\":\"September\", \"value\":9},{\"title\":\"October\", \"value\":17},{\"title\":\"November\", \"value\":25},{\"title\":\"December\", \"value\":31}]";
+    NSData* graphData = [graphString dataUsingEncoding:NSUTF8StringEncoding];
+    NSMutableArray *graphArray = [NSJSONSerialization JSONObjectWithData:graphData options:kNilOptions error:&error];
+    _myBarGraphView.graphArray = graphArray;
+
 }
 
 - (void)didReceiveMemoryWarning
