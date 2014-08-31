@@ -25,38 +25,39 @@
 */
 - (void)drawRect:(CGRect)rect
 {
+    //원
     NSLog(@"kaka: %@", _graphArray[0]);
     CGRect bounds = self.bounds;
     CGPoint center = CGPointMake((bounds.size.width/2.0), (bounds.size.height/2.0));
     NSInteger total = [_graphArray count];
-    float anglePerMonth = M_PI*2 / total;
     int myNumber = 0;
-    CGFloat totalAngle;
+    CGFloat totalAngle =0;
 
+    
     for(int i=0; i<total; i++){
-        NSInteger percentage = [_graphArray[i][@"percentage"] integerValue];
-//        CGFloat startAngle = anglePerMonth * myNumber;
-//        totalAngle +=startAngle;
-        CGFloat startAngle = anglePerMonth * myNumber;
-//        CGFloat endAngle = totalAngle + 360*percentage/100;
-        CGFloat endAngle = startAngle + anglePerMonth;
+        NSNumber *percent = _graphArray[i][@"percentage"];
+        CGFloat degree = [percent floatValue]*360/100;
+        CGFloat startAngle = totalAngle;
+        CGFloat endAngle = totalAngle + degree*M_PI/180;
+        totalAngle = endAngle;
         UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:center radius:self.frame.size.width/2 startAngle:startAngle endAngle:endAngle clockwise:YES];
         
-        UIColor *monthColor = [UIColor blueColor];
-        UIColor *monthColor2 = [UIColor redColor];
-        if(i%2 == 0) {
-            [monthColor set];
+        if(i%4 == 0) {
+            [[UIColor blueColor] set];
+        } else if(i%4 == 1) {
+            [[UIColor redColor] set];
+        } else if(i%4 == 2) {
+            [[UIColor greenColor] set];
         } else {
-            [monthColor2 set];
+            [[UIColor grayColor] set];
         }
-        [path fill];
         myNumber++;
-        [path addLineToPoint:self.center];
+        [path addLineToPoint:center];
+        [path fill];
         [path closePath];
-
+        NSLog(@"count: %d percent: %@ %f~%f", i, percent, startAngle, endAngle);
+        
     }
- 
-    
 }
 
 
