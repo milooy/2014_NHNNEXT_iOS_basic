@@ -1,0 +1,83 @@
+//
+//  ViewController.m
+//  week9
+//
+//  Created by Yurim Jin on 2014. 9. 2..
+//  Copyright (c) 2014년 Yurim Jin. All rights reserved.
+//
+
+#import "ViewController.h"
+
+@interface ViewController ()
+@property UIColor* rBackground;
+@property CGRect rFrame;
+
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    _rBackground = _myfirstButton.backgroundColor;
+    _rFrame = _myfirstButton.frame;
+	// Do any additional setup after loading the view, typically from a nib.
+
+}
+
+-(IBAction)firstButton:(UIButton *)sender{
+    NSLog(@"clicked");
+    [UIView animateWithDuration:1.0 animations:^(void) {
+        _myfirstButton.backgroundColor = [UIColor redColor];
+        _myfirstButton.frame = CGRectMake(80, 80, 80, 50);
+        _myfirstButton.titleLabel.text = @"clicked";
+    } completion:^(BOOL finished) {
+        _myfirstButton.backgroundColor = _rBackground;
+        _myfirstButton.frame = _rFrame;
+    }];
+
+}
+
+
+-(IBAction)bookButtonClicked:(id)sender {
+    _progressBar.progress = 0;
+    dispatch_queue_t aQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(aQueue, ^{
+        [self workingProgress];
+    });
+}
+
+
+-(void)workingProgress {
+    NSString *bookfile = [NSString stringWithContentsOfFile:[[NSBundle mainBundle]
+                                                             pathForResource:@"bookfile" ofType:@".txt"]  encoding:NSUTF8StringEncoding error:nil];
+    dispatch_queue_t bQueue = dispatch_get_main_queue();
+    int length = bookfile.length;
+    int spaceCount = 0;
+    float progress = 0;
+    unichar aChar;
+    for (int nLoop=0; nLoop<length; nLoop++) {
+        aChar = [bookfile characterAtIndex:nLoop];
+        if (aChar==' ') spaceCount++;
+        progress = (float)nLoop / (float)length;
+        dispatch_async(bQueue, ^{
+            _progressBar.progress = progress;
+        });
+
+    }
+    dispatch_async(bQueue, ^{
+        [[[UIAlertView alloc] initWithTitle:@"완료"
+                                    message:[NSString stringWithFormat:@"찾았다 %d개",spaceCount]
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil, nil] show];
+    });
+    
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+@end
