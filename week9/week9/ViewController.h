@@ -17,5 +17,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *bookButton;
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
+-(NSUInteger)countOfSubstring:(NSString *)substring atContents:(NSString *)contents;
 
 @end
