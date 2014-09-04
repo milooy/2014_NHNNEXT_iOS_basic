@@ -74,17 +74,17 @@
     NSError *error = nil;
     NSData *data3 = [NSURLConnection sendSynchronousRequest:request returningResponse:&resp error:&error];
     NSMutableArray *jsonInfoArray = [NSJSONSerialization JSONObjectWithData:data3 options:kNilOptions error:&error];
-    NSLog(@"Array: %@", jsonInfoArray[0]);
+  
     
-    
+    NSString *bookfile = [NSString stringWithContentsOfFile:[[NSBundle mainBundle]
+                                                             pathForResource:@"bookfile" ofType:@".txt"]  encoding:NSUTF8StringEncoding error:nil];
     //for문으로 20개의 어레이를 돌린다. 각각 다른 큐. 그 안에서 다시 돌린다.
     for(int i=0; i<[jsonInfoArray count]; i++) {
         NSString *queueName = @"queue";
         queueName = [NSString stringWithFormat:@"%@%d", queueName, i];
         dispatch_queue_t queue = dispatch_queue_create([queueName UTF8String], 0);
         
-        NSString *bookfile = [NSString stringWithContentsOfFile:[[NSBundle mainBundle]
-                                                                 pathForResource:@"bookfile" ofType:@".txt"]  encoding:NSUTF8StringEncoding error:nil];
+
         NSString *myWord = jsonInfoArray[i];
         int wordCount = 0;
         for (int nLoop=0; nLoop<[bookfile length]; nLoop++) {
@@ -104,7 +104,7 @@
             if ([aString isEqualToString:firstLetter] ){
                 areaStr.location = nLoop;
                 NSString *word = [bookfile substringWithRange:areaStr];
-                NSLog(@"word: %@", word);
+                //NSLog(@"word: %@", word);
                 if ([word isEqualToString:myWord]) {
                     wordCount++;
                 }
@@ -114,10 +114,13 @@
                 _progressBar.progress = progress;
             });
             
+            
+            
         }
+        NSLog(@"word: %@, wordCount: %d", myWord, wordCount);
         dispatch_async(queue, ^{
             [[[UIAlertView alloc] initWithTitle:@"완료"
-                                        message:[NSString stringWithFormat:@"%@는 찾았다 %d개",myWord, wordCount]
+                                        message:[NSString stringWithFormat:@"%@는 찾았다 %d개 아마도?",myWord, wordCount]
                                        delegate:nil
                               cancelButtonTitle:@"OK"
                               otherButtonTitles:nil, nil] show];
