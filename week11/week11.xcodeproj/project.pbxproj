@@ -24,6 +24,7 @@
 		1AFE9FB619CAAFEC00284BCA /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFE9FB519CAAFEC00284BCA /* libsqlite3.dylib */; };
 		1AFE9FB919CAB39700284BCA /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AFE9FB819CAB39700284BCA /* DBManager.m */; };
 		1AFE9FBB19CAB46A00284BCA /* top25.db in Resources */ = {isa = PBXBuildFile; fileRef = 1AFE9FBA19CAB46A00284BCA /* top25.db */; };
+		1AFE9FBE19CAC6D700284BCA /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AFE9FBD19CAC6D700284BCA /* TableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,8 @@
 		1AFE9FB719CAB39700284BCA /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		1AFE9FB819CAB39700284BCA /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		1AFE9FBA19CAB46A00284BCA /* top25.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = top25.db; path = ../../../../../Downloads/top25.db; sourceTree = "<group>"; };
+		1AFE9FBC19CAC6D700284BCA /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		1AFE9FBD19CAC6D700284BCA /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +133,8 @@
 				1AFE9F8619CAAE8400284BCA /* Supporting Files */,
 				1AFE9FB719CAB39700284BCA /* DBManager.h */,
 				1AFE9FB819CAB39700284BCA /* DBManager.m */,
+				1AFE9FBC19CAC6D700284BCA /* TableViewController.h */,
+				1AFE9FBD19CAC6D700284BCA /* TableViewController.m */,
 			);
 			path = week11;
 			sourceTree = "<group>";
@@ -265,6 +270,7 @@
 				1AFE9F9619CAAE8400284BCA /* ViewController.m in Sources */,
 				1AFE9F9019CAAE8400284BCA /* AppDelegate.m in Sources */,
 				1AFE9F8C19CAAE8400284BCA /* main.m in Sources */,
+				1AFE9FBE19CAC6D700284BCA /* TableViewController.m in Sources */,
 				1AFE9FB919CAB39700284BCA /* DBManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
